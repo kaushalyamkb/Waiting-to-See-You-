@@ -88,32 +88,32 @@
   </div>
 
   <script>
-    // Safer date format: new Date(year, monthIndex, day, hours, minutes, seconds)
-    const countdownDate = new Date(2026, 3, 3, 0, 0, 0).getTime(); // May = 4
-  
-    const countdown = document.getElementById("countdown");
-  
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-  
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-      document.getElementById("days").innerText = days;
-      document.getElementById("hours").innerText = hours;
-      document.getElementById("minutes").innerText = minutes;
-      document.getElementById("seconds").innerText = seconds;
-  
-      if (distance < 0) {
-        countdown.innerHTML = "<h2>It's time! 💕</h2>";
-      }
-    };
-  
-    setInterval(updateCountdown, 1000);
-  </script>
+  // Safer date format: new Date(year, monthIndex, day, hours, minutes, seconds)
+  const countdownDate = new Date(2026, 11, 10, 0, 0, 0).getTime(); // Dec = 11
+
+  const countdown = document.getElementById("countdown");
+
+  const updateCountdown = () => {
+    const now = new Date().getTime();
+    const distance = countdownDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+
+    if (distance < 0) {
+      countdown.innerHTML = "<h2>It's time! 💕</h2>";
+    }
+  };
+
+  setInterval(updateCountdown, 1000);
+</script>
   
 </body>
   
