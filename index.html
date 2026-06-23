@@ -1,122 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Countdown to Our Special Day 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(135deg, #ffe6f0, #ffccdd);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #7b2d3d;
-      text-align: center;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Countdown to Our Special Day 💖</title>
 
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 3em;
-      margin-bottom: 10px;
-      color: #e60073;
-      animation: floatText 3s ease-in-out infinite, fadeIn 2s ease-in-out;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand&display=swap" rel="stylesheet">
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #ffccdd);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #7b2d3d;
+    text-align: center;
+  }
 
-    @keyframes floatText {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
+  h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: #e60073;
+    animation: floatText 3s ease-in-out infinite;
+  }
 
-    p {
-      font-size: 1.2em;
-      margin-bottom: 20px;
-    }
+  @keyframes floatText {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
 
-    .countdown {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      font-size: 1.5em;
-      flex-wrap: wrap;
-    }
+  .countdown {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    font-size: 1.5em;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
 
-    .time {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      min-width: 70px;
-    }
+  .time {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 70px;
+  }
 
-    .time span {
-      display: block;
-      font-size: 1.2rem;
-      margin-top: 5px;
-    }
+  .time span {
+    display: block;
+    font-size: 1rem;
+  }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2.2em;
-      }
-      .countdown {
-        font-size: 1.2em;
-      }
-    }
-  </style>
+  /* 💗 Heart */
+  .heart {
+    font-size: 40px;
+    margin: 15px 0;
+    animation: heartbeat 1s infinite;
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  /* 📊 Progress bar */
+  .progress-container {
+    width: 80%;
+    max-width: 400px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 20px;
+    margin-top: 15px;
+    overflow: hidden;
+    height: 18px;
+    position: relative;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #e60073;
+    transition: width 0.3s linear; /* faster + smooth */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    box-sizing: border-box;
+  }
+
+  #progressText {
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+  }
+
+  #dateInfo, #monthsLeft {
+    margin-top: 10px;
+    font-size: 1.1em;
+  }
+</style>
 </head>
+
 <body>
 
-  <h1>Waiting to See You ❤️</h1>
-  <p>Our Wedding Day is coming soon!</p>
-  <div class="countdown" id="countdown">
-    <div class="time"><div id="days">0</div><span>Days</span></div>
-    <div class="time"><div id="hours">0</div><span>Hours</span></div>
-    <div class="time"><div id="minutes">0</div><span>Minutes</span></div>
-    <div class="time"><div id="seconds">0</div><span>Seconds</span></div>
+<h1>Waiting to See You ❤️</h1>
+
+<div class="heart" id="heart">💖</div>
+
+<div class="countdown" id="countdown">
+  <div class="time"><div id="days">0</div><span>Days</span></div>
+  <div class="time"><div id="hours">0</div><span>Hours</span></div>
+  <div class="time"><div id="minutes">0</div><span>Minutes</span></div>
+  <div class="time"><div id="seconds">0</div><span>Seconds</span></div>
+</div>
+
+<div id="monthsLeft"></div>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar">
+    <span id="progressText">0%</span>
   </div>
+</div>
 
-  <script>
-  // Safer date format: new Date(year, monthIndex, day, hours, minutes, seconds)
-  const countdownDate = new Date(2026, 11, 10, 0, 0, 0).getTime(); // Dec = 11
+<div id="dateInfo"></div>
 
-  const countdown = document.getElementById("countdown");
+<script>
+const countdownDate = new Date(2026, 11, 10, 0, 0, 0).getTime();
+const startDate = new Date(2026, 0, 1).getTime();
 
-  const updateCountdown = () => {
-    const now = new Date().getTime();
-    const distance = countdownDate - now;
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
+const monthsLeft = document.getElementById("monthsLeft");
+const dateInfo = document.getElementById("dateInfo");
+const heart = document.getElementById("heart");
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+function formatDate(date) {
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
 
-    document.getElementById("days").innerText = days;
-    document.getElementById("hours").innerText = hours;
-    document.getElementById("minutes").innerText = minutes;
-    document.getElementById("seconds").innerText = seconds;
+function getMonthsLeft(now, target) {
+  let months =
+    (target.getFullYear() - now.getFullYear()) * 12 +
+    (target.getMonth() - now.getMonth());
 
-    if (distance < 0) {
-      countdown.innerHTML = "<h2>It's time! 💕</h2>";
-    }
-  };
+  if (target.getDate() < now.getDate()) months--;
+  return months;
+}
 
-  setInterval(updateCountdown, 1000);
+function updateCountdown() {
+  const now = new Date();
+  const nowTime = now.getTime();
+  const distance = countdownDate - nowTime;
+
+  // countdown numbers
+  document.getElementById("days").innerText =
+    Math.floor(distance / (1000 * 60 * 60 * 24));
+
+  document.getElementById("hours").innerText =
+    Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+  document.getElementById("minutes").innerText =
+    Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+  document.getElementById("seconds").innerText =
+    Math.floor((distance % (1000 * 60)) / 1000);
+
+  // 💗 heartbeat
+  heart.style.animationDuration = (1 - (now.getSeconds() % 2) * 0.1) + "s";
+
+  // dates
+  const targetDate = new Date(2026, 11, 10);
+
+  dateInfo.innerHTML = `
+    📅 Today: <strong>${formatDate(now)}</strong><br>
+    💍 Wedding: <strong>${formatDate(targetDate)}</strong>
+  `;
+
+  // months
+  const months = getMonthsLeft(now, targetDate);
+  monthsLeft.innerHTML = `📆 Months remaining: <strong>${months}</strong>`;
+
+  // 📊 FAST progress (no lag, no easing math)
+  const total = countdownDate - startDate;
+  let progress = ((nowTime - startDate) / total) * 100;
+  progress = Math.min(Math.max(progress, 0), 100);
+
+  progressBar.style.width = progress + "%";
+  progressText.innerText = Math.round(progress) + "%";
+
+  if (distance < 0) {
+    document.getElementById("countdown").innerHTML =
+      "<h2>It's time! 💕</h2>";
+  }
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
 </script>
-  
+
 </body>
-  
 </html>
-
-
