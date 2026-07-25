@@ -1,215 +1,114 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Countdown to Our Special Day 💖</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Love Countdown Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Quicksand', sans-serif;
-    background: linear-gradient(135deg, #ffe6f0, #ffccdd);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #7b2d3d;
-    text-align: center;
-  }
+body{margin:0;font-family:Quicksand,sans-serif;background:linear-gradient(135deg,#ffe6f0,#ffd6ea);padding:40px}
+h1{text-align:center;font-family:"Great Vibes",cursive;font-size:54px;color:#d81b60}
+.wrapper{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1200px;margin:30px auto}
+.card{background:rgba(255,255,255,.35);backdrop-filter:blur(10px);border-radius:20px;padding:25px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.months{font-weight:bold;color:#d81b60;margin:12px 0}
+.timer{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 
-  h1 {
-    font-family: 'Great Vibes', cursive;
-    font-size: 3em;
-    margin-bottom: 10px;
-    color: #e60073;
-    animation: floatText 3s ease-in-out infinite;
-  }
+/* Card Box Styling */
+.box{background:#fff;color:#333;border-radius:10px;padding:10px;min-width:60px;text-align:center}
+.box b{display:block;font-size:22px;color:#d81b60}
 
-  @keyframes floatText {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0); }
-  }
+button{margin-top:18px;border:0;background:#d81b60;color:#fff;padding:12px 22px;border-radius:25px;cursor:pointer;font-weight:bold}
 
-  .countdown {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    font-size: 1.5em;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
+/* Popup Styles */
+.popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:1000;overflow:hidden}
+.popup.active{display:flex}
 
-  .time {
-    background: rgba(255,255,255,0.3);
-    border-radius: 10px;
-    padding: 15px;
-    min-width: 70px;
-  }
+/* Replaced video element with img element to correctly display GIFs */
+.popup .bg-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 
-  .time span {
-    display: block;
-    font-size: 1rem;
-  }
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.65);z-index:2}
+.content{position:relative;z-index:3;color:#fff;text-align:center;max-width:700px;padding:20px}
+.content .months{color:#ff80ab}
 
-  /* 💗 Heart */
-  .heart {
-    font-size: 40px;
-    margin: 15px 0;
-    animation: heartbeat 1s infinite;
-  }
-
-  @keyframes heartbeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  /* 📊 Progress bar */
-  .progress-container {
-    width: 80%;
-    max-width: 400px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 20px;
-    margin-top: 15px;
-    overflow: hidden;
-    height: 18px;
-    position: relative;
-  }
-
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #e60073;
-    transition: width 0.3s linear; /* faster + smooth */
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    box-sizing: border-box;
-  }
-
-  #progressText {
-    font-size: 12px;
-    color: white;
-    font-weight: bold;
-  }
-
-  #dateInfo, #monthsLeft {
-    margin-top: 10px;
-    font-size: 1.1em;
-  }
+.close{background:#fff;color:#d81b60}
 </style>
 </head>
-
 <body>
+<h1>Our Journey ❤️</h1>
+<div class="wrapper" id="cards"></div>
 
-<h1>Waiting to See You ❤️</h1>
-
-<div class="heart" id="heart">💖</div>
-
-<div class="countdown" id="countdown">
-  <div class="time"><div id="days">0</div><span>Days</span></div>
-  <div class="time"><div id="hours">0</div><span>Hours</span></div>
-  <div class="time"><div id="minutes">0</div><span>Minutes</span></div>
-  <div class="time"><div id="seconds">0</div><span>Seconds</span></div>
-</div>
-
-<div id="monthsLeft"></div>
-
-<div class="progress-container">
-  <div class="progress-bar" id="progressBar">
-    <span id="progressText">0%</span>
+<div class="popup" id="popup">
+  <!-- Changed from <video> to <img> so the GIF displays properly -->
+  <img id="bgMedia" class="bg-media" alt="Background Animation">
+  <div class="overlay"></div>
+  <div class="content">
+    <h2 id="popTitle" style="font-size: 32px; margin-bottom: 5px;"></h2>
+    <div class="months" id="popMonths"></div>
+    <div class="timer" id="popTimer"></div>
+    <p id="dates" style="margin-top: 20px; line-height: 1.6;"></p>
+    <button class="close" onclick="popup.classList.remove('active')">Close</button>
   </div>
 </div>
 
-<div id="dateInfo"></div>
-
 <script>
-const countdownDate = new Date(2026, 11, 10, 0, 0, 0).getTime();
-const startDate = new Date(2026, 0, 1).getTime();
+const events=[
+  {title:"Time to Our Wedding",date:"2026-12-10T00:00:00",video:"https://res.cloudinary.com/dff4rbfkn/image/upload/v1784968989/tumblr_ocqmtbtWiI1rlnjw2o1_1280_ur0pig.gif"},
+  {title:"Time to Honeymoon",date:"2026-12-11T09:00:00",video:"https://res.cloudinary.com/dff4rbfkn/image/upload/v1784967900/m_ldpwiqacxtE_Ai_mh_R2r-lm_RBve6ZCQH_51966511b_i2cugj.gif"},
+  {title:"Time to Next Visit",date:"2026-08-03T10:00:00",video:"https://res.cloudinary.com/dff4rbfkn/image/upload/v1784970034/24886935_u8ewgv.gif"}
+];
 
-const progressBar = document.getElementById("progressBar");
-const progressText = document.getElementById("progressText");
-const monthsLeft = document.getElementById("monthsLeft");
-const dateInfo = document.getElementById("dateInfo");
-const heart = document.getElementById("heart");
+const cards=document.getElementById("cards");
+events.forEach((e,i)=>{
+  cards.innerHTML+=`<div class="card"><h2>${e.title}</h2><div class="months" id="m${i}"></div>
+  <div class="timer" id="t${i}"></div><button onclick="openPop(${i})">See the Dates</button></div>`;
+});
 
-function formatDate(date) {
-  return date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+function monthsLeft(n,t){
+  let m=(t.getFullYear()-n.getFullYear())*12+t.getMonth()-n.getMonth();
+  if(t.getDate()<n.getDate())m--;
+  return Math.max(m,0)
+}
+
+function boxes(d,h,m,s){
+  return `<div class="box"><b>${d}</b>Days</div><div class="box"><b>${h}</b>Hours</div><div class="box"><b>${m}</b>Min</div><div class="box"><b>${s}</b>Sec</div>`
+}
+
+function tick(){
+  const now=new Date();
+  events.forEach((e,i)=>{
+    let t=new Date(e.date),dist=t-now;
+    let d=Math.max(0,Math.floor(dist/86400000));
+    let h=Math.max(0,Math.floor(dist%86400000/3600000));
+    let mi=Math.max(0,Math.floor(dist%3600000/60000));
+    let s=Math.max(0,Math.floor(dist%60000/1000));
+    document.getElementById("m"+i).textContent=monthsLeft(now,t)+" Months Remaining";
+    document.getElementById("t"+i).innerHTML=boxes(d,h,mi,s);
   });
-}
 
-function getMonthsLeft(now, target) {
-  let months =
-    (target.getFullYear() - now.getFullYear()) * 12 +
-    (target.getMonth() - now.getMonth());
-
-  if (target.getDate() < now.getDate()) months--;
-  return months;
-}
-
-function updateCountdown() {
-  const now = new Date();
-  const nowTime = now.getTime();
-  const distance = countdownDate - nowTime;
-
-  // countdown numbers
-  document.getElementById("days").innerText =
-    Math.floor(distance / (1000 * 60 * 60 * 24));
-
-  document.getElementById("hours").innerText =
-    Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-  document.getElementById("minutes").innerText =
-    Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-  document.getElementById("seconds").innerText =
-    Math.floor((distance % (1000 * 60)) / 1000);
-
-  // 💗 heartbeat
-  heart.style.animationDuration = (1 - (now.getSeconds() % 2) * 0.1) + "s";
-
-  // dates
-  const targetDate = new Date(2026, 11, 10);
-
-  dateInfo.innerHTML = `
-    📅 Today: <strong>${formatDate(now)}</strong><br>
-    💍 Wedding: <strong>${formatDate(targetDate)}</strong>
-  `;
-
-  // months
-  const months = getMonthsLeft(now, targetDate);
-  monthsLeft.innerHTML = `📆 Months remaining: <strong>${months}</strong>`;
-
-  // 📊 FAST progress (no lag, no easing math)
-  const total = countdownDate - startDate;
-  let progress = ((nowTime - startDate) / total) * 100;
-  progress = Math.min(Math.max(progress, 0), 100);
-
-  progressBar.style.width = progress + "%";
-  progressText.innerText = Math.round(progress) + "%";
-
-  if (distance < 0) {
-    document.getElementById("countdown").innerHTML =
-      "<h2>It's time! 💕</h2>";
+  if(window.current!=null){
+    let e=events[current],t=new Date(e.date),dist=t-now;
+    popTitle.textContent=e.title;
+    popMonths.textContent=monthsLeft(now,t)+" Months Remaining";
+    popTimer.innerHTML=boxes(
+      Math.max(0,Math.floor(dist/86400000)),
+      Math.max(0,Math.floor(dist%86400000/3600000)),
+      Math.max(0,Math.floor(dist%3600000/60000)),
+      Math.max(0,Math.floor(dist%60000/1000))
+    );
+    dates.innerHTML="Today: "+now.toDateString()+"<br>Event: "+t.toDateString();
   }
 }
 
-setInterval(updateCountdown, 1000);
-updateCountdown();
-</script>
+function openPop(i){
+  window.current=i;
+  document.getElementById("bgMedia").src=events[i].video;
+  popup.classList.add("active");
+  tick();
+}
 
+tick();
+setInterval(tick,1000);
+</script>
 </body>
 </html>
